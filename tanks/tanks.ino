@@ -12,25 +12,19 @@
 
 Adafruit_SH1106G display = Adafruit_SH1106G(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
-// Bitmap del tanque de guerra (10x7 píxeles)
-static const unsigned char PROGMEM tankOneBitmap[] = {
-  B11111111, B00000000, // ########00
-  B11111111, B00000000, // ########00
-  B01111100, B00000000, // 0######000
-  B01111111, B11111111, // 0########
-  B01111100, B00000000, // 0######000
-  B11111111, B00000000, // ########00
-  B11111111, B00000000  // ########00
-};
-
-static const unsigned char PROGMEM tankTwoBitmap[] = {
-  B00111111, B11000000, // 00########
-  B00111111, B11000000, // 00########
-  B00001111, B10000000, // 000######0
-  B11111111, B10000000, // ########0
-  B00001111, B10000000, // 000######0
-  B00111111, B11000000, // 00########
-  B00111111, B11000000  // 00########
+// Bitmap del tanque de guerra (11x11 píxeles)
+static const unsigned char PROGMEM tankBitmap[] = {
+  B11111111, B10000000,
+  B11111111, B10000000,
+  B11111111, B10000000,
+  B00111110, B00000000,
+  B01100110, B00100000,
+  B01100111, B11100000,
+  B01100110, B00100000,
+  B11111110, B00000000,
+  B11111111, B10000000,
+  B11111111, B10000000,
+  B11111111, B10000000,
 };
 
 const byte ROWS = 2; // four rows
@@ -48,8 +42,8 @@ byte colPinsB[COLS] = {4, 3, 2}; // connect to the column pinouts of the keypad
 Keypad playerAKeypad = Keypad(makeKeymap(hexaKeys), rowPinsA, colPinsA, ROWS, COLS);
 Keypad playerBKeypad = Keypad(makeKeymap(hexaKeys), rowPinsB, colPinsB, ROWS, COLS);
 
-Tank playerA(10, 22, tankOneBitmap, &playerAKeypad);
-Tank playerB(108, 38, tankTwoBitmap, &playerBKeypad);
+Tank playerA(10, 22, tankBitmap, 1, &playerAKeypad);
+Tank playerB(108, 38, tankBitmap, 3, &playerBKeypad);
 
 void setup() {
   Serial.begin(9600);

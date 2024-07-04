@@ -6,12 +6,13 @@
 
 class Tank {
 public:
-  Tank(int startX, int startY, const unsigned char* tankBitmap, Keypad* tankKeypad);
+  Tank(int startX, int startY, const unsigned char* tankBitmap, int startDir, Keypad* tankKeypad);
   void move();
   void draw();
+  void shoot();
 
 private:
-  int x, y;
+  int x, y, dir;
   const unsigned char* bitmap;
   Keypad* keypad;
   void processMovement(int pressedKey);

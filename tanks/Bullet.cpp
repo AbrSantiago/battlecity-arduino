@@ -4,10 +4,10 @@
 extern Adafruit_SH1106G display;
 
 Bullet::Bullet(int startX, int startY, int dir)
-  : x(startX), y(startY), dir(dir) {}
+  : x(startX), y(startY), dir(dir), onLimit(false) {}
 
 void Bullet::draw() {
-  display.drawBitmap(x, y, WHITE)
+  display.drawPixel(x, y, SH110X_WHITE);
 }
 
 void Bullet::update() {
@@ -27,6 +27,17 @@ void Bullet::update() {
     default:
       break;
   }
+
+  if (x <= 0 || x >= 128) {
+    onLimit = true;
+  }
+
+  if (y <= 0 || y >= 64) {
+    onLimit = true;
+  }
+  
 }
 
-void Bullet::impact()
+void Bullet::impact(int tankX, int tankY) {
+  // holder pum
+}

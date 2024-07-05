@@ -3,19 +3,21 @@
 
 #include <Keypad.h>
 #include <Adafruit_SH110X.h>
+#include "Bullet.h"
 
 class Tank {
 public:
-  Tank(int startX, int startY, const unsigned char* tankBitmap, int startDir, Keypad* tankKeypad);
+  Tank(int player_code, int startX, int startY, const unsigned char* tankBitmap, int startDir, Keypad* tankKeypad);
   void move();
   void draw();
-  void shoot();
+  void shoot(Bullet* state);
 
 private:
-  int x, y, dir;
+  int id, x, y, dir, numBullets;
   const unsigned char* bitmap;
   Keypad* keypad;
-  void processMovement(int pressedKey);
+  void processMovement1(int pressedKey);
+  void processMovement2(int pressedKey);
 };
 
 #endif  // TANK_H

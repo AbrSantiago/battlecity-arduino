@@ -4,6 +4,7 @@
 #include <Adafruit_SH110X.h>
 #include <Keypad.h>
 #include "Tank.h"
+#include "Bullet.h"
 
 #define i2c_Address 0x3c // Inicializa con la dirección I2C 0x3C
 #define SCREEN_WIDTH 128 // Ancho de la pantalla OLED en píxeles
@@ -42,12 +43,14 @@ byte colPinsB[COLS] = {4, 3, 2}; // connect to the column pinouts of the keypad
 Keypad playerAKeypad = Keypad(makeKeymap(hexaKeys), rowPinsA, colPinsA, ROWS, COLS);
 Keypad playerBKeypad = Keypad(makeKeymap(hexaKeys), rowPinsB, colPinsB, ROWS, COLS);
 
-Tank playerA(10, 22, tankBitmap, 1, &playerAKeypad);
-Tank playerB(108, 38, tankBitmap, 3, &playerBKeypad);
+Tank playerA(0, 10, 22, tankBitmap, 1, &playerAKeypad);
+Tank playerB(1, 108, 38, tankBitmap, 3, &playerBKeypad);
+
+Bullet* bulletA = nullptr;
+Bullet* bulletB = nullptr;
 
 void setup() {
   Serial.begin(9600);
-
   // Inicializa la pantalla OLED
   delay(250); // Espera a que la OLED se encienda
   display.begin(i2c_Address, true); // Dirección 0x3C por defecto
@@ -60,9 +63,27 @@ void loop() {
   playerA.move();
   playerB.move();
 
+  playerA.shoot(bulletA);
+  playerB.shoot(bulletB);
+
   display.clearDisplay();
   playerA.draw();
   playerB.draw();
+
+  if (bulletA != nullptr) {
+    if(bulletA->onLimit) {
+      bulletA = nullptr;
+    }
+    bulletA->draw();
+  }
+
+  if (bulletB != nullptr) {
+    if(bulletB->onLimit) {
+      bulletB = nullptr;
+    }
+    bulletB->draw();
+  }
+
   display.display();
   delay(5);
 }

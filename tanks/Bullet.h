@@ -3,15 +3,14 @@
 
 #include <Adafruit_SH110X.h>
 
-class Tank;
-
 class Bullet {
 public:
   int x, y, dir;
-  // bool outOfLimit = false;
-  Bullet(int x, int y, int dir);
+  const unsigned char* bitmap;
+  bool inUse = false;
+  Bullet(int x, int y, int dir, const unsigned char* bulletBitmap);
   void move();
-  // bool checkCollision(Tank& tank);
+  void draw();  
 };
 
 #endif  // BULLET_H

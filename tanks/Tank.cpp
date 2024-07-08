@@ -56,22 +56,22 @@ void Tank::processMovement1(int pressedKey) {
 }
 
 void Tank::processMovement2(int pressedKey) {
-  switch (pressedKey) {
+   switch (pressedKey) {
     case 'W':
       dir = 3;
-      x = min(x + 1, 118);
+      x = max(0, x - 1);
       break;
     case 'A':
       dir = 2;
-      y = max(0, y - 1);
+      y = min(52, y + 1);
       break;
     case 'S':
       dir = 1;
-      x = max(0, x - 1);
+      x = min(116, x + 1);
       break;
     case 'D':
       dir = 0;
-      y = min(56, y + 1);
+      y = max(0, y - 1);
       break;
     default:
       break;

@@ -5,6 +5,7 @@
 #include <Keypad.h>
 #include "Tank.h"
 #include "Bullet.h"
+#include <LinkedList.h>
 
 #define i2c_Address 0x3c // Inicializa con la dirección I2C 0x3C
 #define SCREEN_WIDTH 128 // Ancho de la pantalla OLED en píxeles
@@ -14,7 +15,7 @@
 Adafruit_SH1106G display = Adafruit_SH1106G(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 // Bitmap del tanque de guerra (11x11 píxeles)
-static const unsigned char PROGMEM tankBitmap[] = {
+static const unsigned char PROGMEM tankBitmap[] = { // To FIX
   B11111111, B10000000,
   B11111111, B10000000,
   B11111111, B10000000,
@@ -43,13 +44,13 @@ byte colPinsB[COLS] = {4, 3, 2}; // connect to the column pinouts of the keypad
 Keypad playerAKeypad = Keypad(makeKeymap(hexaKeys), rowPinsA, colPinsA, ROWS, COLS);
 Keypad playerBKeypad = Keypad(makeKeymap(hexaKeys), rowPinsB, colPinsB, ROWS, COLS);
 
-Tank playerA(0, 10, 22, tankBitmap, 1, &playerAKeypad);
+Tank playerA(-1, -1, 22, tankBitmap, 1, &playerAKeypad);
 Tank playerB(1, 108, 38, tankBitmap, 3, &playerBKeypad);
 
-Bullet* bulletA = nullptr;
-Bullet* bulletB = nullptr;
+Bullet b(1, 1, 1);
 
 void setup() {
+  
   Serial.begin(9600);
   // Inicializa la pantalla OLED
   delay(250); // Espera a que la OLED se encienda
@@ -63,26 +64,18 @@ void loop() {
   playerA.move();
   playerB.move();
 
-  playerA.shoot(bulletA);
-  playerB.shoot(bulletB);
+  // char pressed = playerAKeypad.getKey();
+  // if (pressed == 'E' || pressed == 'Q') {
+  //   bullets.add(new Bullet(1,1,1));
+  // }
 
   display.clearDisplay();
+
+  display.drawPixel(b.x, b.y, SH110X_WHITE);
+  b.x+=2;
+
   playerA.draw();
   playerB.draw();
-
-  if (bulletA != nullptr) {
-    if(bulletA->onLimit) {
-      bulletA = nullptr;
-    }
-    bulletA->draw();
-  }
-
-  if (bulletB != nullptr) {
-    if(bulletB->onLimit) {
-      bulletB = nullptr;
-    }
-    bulletB->draw();
-  }
 
   display.display();
   delay(5);

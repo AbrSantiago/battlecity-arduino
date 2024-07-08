@@ -7,11 +7,9 @@ extern Adafruit_SH1106G display;
 Tank::Tank(int player_code, int startX, int startY, const unsigned char* tankBitmap, int startDir, Keypad* tankKeypad)
   : id(player_code), x(startX), y(startY), bitmap(tankBitmap), dir(startDir), keypad(tankKeypad), numBullets(0) {}
 
-void Tank::shoot(Bullet* state) {
-  char pressed = keypad->getKey();
-  if ((pressed == 'E' || pressed == 'Q') && state == nullptr) {
-    state = new Bullet(x, y, dir);
-  }
+Bullet Tank::shoot() {
+  Bullet b(x, y, dir); // To FIX
+  return b;
 }
 
 void Tank::move() {

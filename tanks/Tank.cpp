@@ -8,7 +8,8 @@ Tank::Tank(int player_code, int startX, int startY, const unsigned char* tankBit
   : id(player_code), x(startX), y(startY), bitmap(tankBitmap), dir(startDir), keypad(tankKeypad), numBullets(0) {}
 
 Bullet Tank::shoot() {
-  Bullet b(x, y, dir); // To FIX
+  // borrar
+  Bullet b(x, y, dir); 
   return b;
 }
 

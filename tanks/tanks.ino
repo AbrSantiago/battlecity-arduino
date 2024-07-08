@@ -5,7 +5,6 @@
 #include <Keypad.h>
 #include "Tank.h"
 #include "Bullet.h"
-#include <LinkedList.h>
 
 #define i2c_Address 0x3c // Inicializa con la dirección I2C 0x3C
 #define SCREEN_WIDTH 128 // Ancho de la pantalla OLED en píxeles
@@ -47,36 +46,63 @@ Keypad playerBKeypad = Keypad(makeKeymap(hexaKeys), rowPinsB, colPinsB, ROWS, CO
 Tank playerA(-1, -1, 22, tankBitmap, 1, &playerAKeypad);
 Tank playerB(1, 108, 38, tankBitmap, 3, &playerBKeypad);
 
-Bullet b(1, 1, 1);
+// en true --> mover la bala en dirección
+bool bulletInGame = false;
+bool impact = false;
+// empieza fuera de pantalla
+Bullet bala(-5, -5, 1);
 
 void setup() {
-  
   Serial.begin(9600);
-  // Inicializa la pantalla OLED
-  delay(250); // Espera a que la OLED se encienda
-  display.begin(i2c_Address, true); // Dirección 0x3C por defecto
+  delay(250);
+  display.begin(i2c_Address, true);
   display.display();
   delay(2000);
   display.clearDisplay();
 }
 
 void loop() {
-  playerA.move();
-  playerB.move();
+  if(!impact) {
+    playerA.move();
+    playerB.move();
 
-  // char pressed = playerAKeypad.getKey();
-  // if (pressed == 'E' || pressed == 'Q') {
-  //   bullets.add(new Bullet(1,1,1));
-  // }
+    // char pressed = playerAKeypad.getKey();
+    // if ((pressed == 'E' || pressed == 'Q') && !bulletInGame) {
+    //   bala.x = playerA.x; // +11?
+    //   bala.y = playerA.y; // +5?
+    //   bala.dir = playerA.dir;
+    // }
 
-  display.clearDisplay();
+    // char pressed = playerBKeypad.getKey();
+    // if ((pressed == 'E' || pressed == 'Q') && !bulletInGame) {
+    //   bala.x = playerB.x;
+    //   bala.y = playerB.y;
+    //   bala.dir = playerB.dir;
+    // }
 
-  display.drawPixel(b.x, b.y, SH110X_WHITE);
-  b.x+=2;
+    // si hay bala, se mueve
+    if (bulletInGame) {
+      switch(bala.dir) {
+        case 0: bala.x += 2; break;
+        case 1: bala.y += 2; break;
+        case 2: bala.x -= 2; break;
+        case 3: bala.y -= 2; break;
+        default: break;
+      }
+    }
 
-  playerA.draw();
-  playerB.draw();
+    display.clearDisplay();
 
-  display.display();
+    display.drawPixel(bala.x, bala.y, SH110X_WHITE);
+    // bala.x+=2; // anda (visto en ds)
+
+    playerA.draw();
+    playerB.draw();
+
+    display.display();
+  } else {
+    // muestro pantalla de "Game Over"
+  }
+
   delay(5);
 }

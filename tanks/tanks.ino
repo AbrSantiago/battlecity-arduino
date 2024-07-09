@@ -42,7 +42,6 @@ static const unsigned char PROGMEM tankBitmapB[] = {
   B00111111, B11100000,
 };
 
-
 static const unsigned char PROGMEM bulletBitmap[] = {
   B11100000,
   B11100000,
@@ -71,19 +70,12 @@ Tank playerB(1, 108, 40, tankBitmapB, 3, &playerBKeypad);
 
 bool impact = false;
 
-void start() {
-  // display.write("Battle city");
-  display.print("Battle city");
-  display.display();
-}
-
 void setup() {
   Serial.begin(9600);
-  delay(200);
+  delay(250);
   display.begin(i2c_Address, true);
-  display.clearDisplay();
-  // start();
-  // delay(1000);
+  display.display();
+  delay(1000);
 }
 
 void loop() {
@@ -127,11 +119,24 @@ void loop() {
 
     impact = playerA.checkCollision(&bullet1) || playerB.checkCollision(&bullet1);
   } else {
-    // muestro pantalla de "Game Over"
-    // display.clearDisplay();
-    // display.setTextSize(5);
-    // display.write("Winner...");
-  }
+    // "Game Over"
+    display.clearDisplay();
+    display.display();
+    for (int i=0; i<5; i++) {
+      analogWrite(11, 100);
+      delay(100);
+      analogWrite(11, 0);
+      delay(100);
+    }
 
+    impact = !impact;
+    bullet1.x = -3;
+    bullet1.y = -3;
+    bullet1.inUse = false;
+    playerA.x = 20;
+    playerA.y = 20;
+    playerB.x = 108;
+    playerB.y = 40;
+  }
   delay(5);
 }

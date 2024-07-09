@@ -9,6 +9,9 @@ Tank::Tank(int player_code, int startX, int startY, const unsigned char* tankBit
 
 void Tank::shoot(Bullet* bullet) {
   if(!bullet->inUse){
+    analogWrite(11, 255);
+    delay(50);
+    analogWrite(11, 0);
     if(id==0){
       bullet->x = x+11;
     } else {

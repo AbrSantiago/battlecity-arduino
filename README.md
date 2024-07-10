@@ -43,9 +43,9 @@ El código del proyecto se encuentra en este repositorio, en la carpeta `tanks`,
 - La abstracción de los tanques (jugadores) en [Tank.cpp](/tanks/Tank.cpp)
 - La abstracción de las balas (ataques) en [Bullet.cpp](/tanks/Bullet.cpp)
 
-## 🔍 Esquematico
+## 🔍 Esquema
 
-**¡¡COMPLETAR!!**
+<img src="esquema.png" />
 
 ## 🐞 Problemas encontrados y su solución
 
@@ -70,10 +70,10 @@ El código del proyecto se encuentra en este repositorio, en la carpeta `tanks`,
 - Arduino IDE
 - Las librerias para interactuar con los componentes:
 
-| Libreria     | Version              |
-|--------------|----------------------|
-|lib. Pantalla | v. **¡¡COMPLETAR!!** |
-|lib. Keypads  | v. **¡¡COMPLETAR!!** |
+| Libreria        | Version              |
+|-----------------|----------------------|
+| Adafruit SH110X | v. 2.1.10            |
+| Keypad          | v. 3.1.1             |
 
 ---
 
